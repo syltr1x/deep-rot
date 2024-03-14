@@ -12,7 +12,6 @@ import UserView from "../views/UserView"
 const Tab = createBottomTabNavigator();
 
 export const BottomTab = () => {
-    
     return (
         <Tab.Navigator
             screenOptions = { ({ route }) => ({
