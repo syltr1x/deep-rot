@@ -2,6 +2,7 @@ import React from "react";
 import Constants from 'expo-constants';
 import { View, Text, StyleSheet, Alert } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from "@react-navigation/native";
 
 /*--------------------------------------------
 ------------ CONSTANTES DE ESTILO ------------
@@ -26,14 +27,14 @@ const HomeHeader = () => {
         </View>
     )
 }
-const WorkHeader = () => {
+const WorkHeader = ({ navigation }) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.headerBar}>
             <Icon.Button
                 size={btnSize}
-                name="bug"
+                name="add-circle-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("TENDRIA QUE IR MI ISOTIPO")}
             ></Icon.Button>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
             <Icon.Button
