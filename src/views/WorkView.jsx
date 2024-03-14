@@ -6,13 +6,12 @@ import repos from "../data/data";
 
 const WorkView = () => {
     return (
-      <View style={{flexGrow: 1 }}>
+      <View style={{flexGrow: 1, backgroundColor:'#111'}}>
           <WorkHeader></WorkHeader>
+          <Text>Deprot App Test</Text>
           <FlatList
           data={repos}
-          ItemSeparatorComponent={() => <Text></Text>}
           renderItem={({item: repo}) => (
-            // <Text>{repo.title}</Text>
             <Repository {...repo}/>
           )}
           />
