@@ -1,10 +1,12 @@
 import React from "react";
 import Constants from 'expo-constants';
 import { Text, View } from 'react-native';
+import { NewsHeader } from "../components/Header";
 
 const NewsView = () => {
     return (
-        <View style={{ marginTop: Constants.statusBarHeight, flexGrow: 1 }}>
+        <View style={{flexGrow: 1, backgroundColor: '#111'}}>
+          <NewsHeader></NewsHeader>
           <Text>ESTO ES Noticias</Text>
         </View>
     )
