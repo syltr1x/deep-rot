@@ -27,8 +27,7 @@ const HomeHeader = () => {
         </View>
     )
 }
-const WorkHeader = ({ navigation }) => {
-    const navigation = useNavigation();
+const WorkHeader = () => {
     return (
         <View style={styles.headerBar}>
             <Icon.Button
@@ -65,6 +64,25 @@ const ChatHeader = () => {
         </View>
     )
 }
+const UserHeader = () => {
+    return (
+        <View style={styles.headerBar}>
+            <Icon.Button
+                size={btnSize}
+                name="chevron-down"
+                style={styles.headerButton}
+                onPress={() => Alert.alert("CAMBIA LA ACAUNT")}
+            ></Icon.Button>
+            <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
+            <Icon.Button
+                size={btnSize}
+                name="cog-outline"
+                style={styles.headerButton}
+                onPress={() => Alert.alert("AJUSTES")}
+            ></Icon.Button>         
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     headerBar:{
@@ -94,5 +112,6 @@ const styles = StyleSheet.create({
 export {
     HomeHeader,
     WorkHeader,
-    ChatHeader
+    ChatHeader,
+    UserHeader
 }
