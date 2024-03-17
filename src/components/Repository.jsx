@@ -5,7 +5,7 @@ const Repository = (props) => (
     <View key={props.id} style={RepoStyles.repository}>
         <Image
         style={RepoStyles.image}
-        source={props.imageicon !== "" ? { uri: props.imageicon } : {uri: 'https://svgsilh.com/png-512/39767.png'}}
+        source={props.imageicon !== "" ? { uri: props.imageicon } : require('../data/block.png')}
         ></Image>
         <View style={RepoStyles.textView}>
             <Text style={RepoStyles.title}>{props.title}</Text>
