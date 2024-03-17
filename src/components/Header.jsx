@@ -50,7 +50,7 @@ const ChatHeader = () => {
         <View style={styles.headerBar}>
             <Icon.Button
                 size={btnSize}
-                name="add"
+                name="add-circle-outline"
                 style={styles.headerButton}
                 onPress={() => Alert.alert("AÑADIRIA UN CHAT")}
             ></Icon.Button>
@@ -64,6 +64,25 @@ const ChatHeader = () => {
         </View>
     )
 }
+const NewsHeader = () => {
+    return (
+        <View style={styles.headerBar}>
+            <Icon.Button
+                size={btnSize}
+                name="add-circle-outline"
+                style={styles.headerButton}
+                onPress={() => Alert.alert("AÑADE UNA NOTICIA")}
+            ></Icon.Button>
+            <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
+            <Icon.Button
+                size={btnSize}
+                name="filter-outline"
+                style={styles.headerButton}
+                onPress={() => Alert.alert("FILTROS")}
+            ></Icon.Button>         
+        </View>
+    )
+}
 const UserHeader = () => {
     return (
         <View style={styles.headerBar}>
@@ -71,7 +90,7 @@ const UserHeader = () => {
                 size={btnSize}
                 name="chevron-down"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("CAMBIA LA ACAUNT")}
+                onPress={() => Alert.alert("CAMBIO DE CUENTA")}
             ></Icon.Button>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
             <Icon.Button
@@ -113,5 +132,6 @@ export {
     HomeHeader,
     WorkHeader,
     ChatHeader,
+    NewsHeader,
     UserHeader
 }
