@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text} from 'react-native';
+import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ChatHeader } from "../components/Header";
 import { io } from 'socket.io-client';
+import AddServerView from './AddServerView';
 
-const ChatView = () => {
+const ChatView = ({ navigation }) => {
   const [inputValue, setInputValue] = useState('');
-  const [messages, setMessages] = useState(["hola", "koko"]); // Estado para almacenar los mensajes
-
+  const [messages, setMessages] = useState([]);
   const handleInputChange = (text) => {
     setInputValue(text);
   };
 
   const handleSubmit = () => {
     const socket = io.connect('http://192.168.0.26:3000');
-    socket.emit('message', { user: "martin", msg: inputValue });
-    setInputValue('');
+    if (inputValue != '') {
+      socket.emit('message', { user: "martin", msg: inputValue });
+      setInputValue('');
+    }
   };
 
   useEffect(() => {
     const socket = io.connect('http://192.168.0.26:3000');
     socket.on('message', (data) => {
-      setMessages(prevMessages => [...prevMessages, `[${data.user}] > ${data.msg}`]);
+      setMessages(prevMessages => [...prevMessages, data.msg]);
     });
 
     return () => {
@@ -31,68 +35,95 @@ const ChatView = () => {
 
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111' }}>
-      {/* Contenedor de mensajes */}
       <ChatHeader />
-      <View style={ChatStyles.chatbox}>
+      <ScrollView style={ChatStyles.chatBox} zIndex={0}>
         {messages.map((message, index) => (
-          <View key={index} style={ChatStyles.msgbox}>
-            <Text>{message}</Text>
+          <View key={index} style={ChatStyles.msgBox}>
+            <Text style={ChatStyles.msgText}>{message}</Text>
           </View>
         ))}
-      </View>
-      
-      {/* Entrada de mensaje */}
+      </ScrollView>
       <View style={{ flexDirection: 'row' }}>
         <TextInput
-          style={ChatStyles.msgentry}
-          placeholder="HOLA"
+          style={ChatStyles.msgEntry}
+          placeholder="Ingresa el mensaje"
+          placeholderTextColor={'#fff'}
           onChangeText={handleInputChange}
-          value={inputValue} // Asignar el valor del input
+          value={inputValue}
         />
-        <Icon.Button
-          style={ChatStyles.sendbtn}
-          name="arrow-redo-outline"
-          onPress={handleSubmit}
-        />
+        <TouchableOpacity onPress={() => {navigation.navigate("addserver")}}>
+        {/* <TouchableOpacity onPress={handleSubmit}> */}
+          <Icon 
+            size={32}
+            name="arrow-redo-outline"
+            style={ChatStyles.sendBtn}
+          />
+      </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const ChatStyles = StyleSheet.create({
-  chatbox: {
-    padding: 12,
-    paddingTop: 4,
-    paddingBottom: 4,
-    marginBottom: 8,
-    height: '70%',
-    color: '#fff',
-    backgroundColor: '#666',
-    borderWidth: 2,
-    borderRadius: 10,
-  },
-  msgbox: {
-    backgroundColor: '#050',
-    borderRadius: 4,
-    marginBottom: 6,
-    padding: 8
-  },
-  msgentry: {
+  chatBox: {
+    marginHorizontal: '1%',
     flex: 1,
     padding: 12,
     paddingTop: 4,
     paddingBottom: 4,
+    marginBottom: 8,
     color: '#fff',
-    backgroundColor: '#666',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#f00',
+    borderColor: '#fff',
+    borderWidth: 1.2,
+    borderRadius: 10,
+    zIndex: 0,
+  },
+  msgBox: {
+    backgroundColor: '#030',
+    borderRadius: 4,
+    marginTop: 10,
+    padding: 8
+  },
+  msgText: {
+    color: '#eee',
+  },
+  msgEntry: {
+    flex: 1,
+    padding: 18,
+    paddingTop: 4,
+    marginBottom: 6,
+    paddingBottom: 4,
+    marginHorizontal: '1%',
+    color: '#fff',
+    borderColor: '#fff',
+    borderWidth: 1.2,
+    borderRadius: 14,
     borderStyle: 'solid'
   },
-  sendbtn: {
+  sendBtn: {
+    top: -3.5,
+    color: '#fff',
     padding: 8,
+    marginRight: 6,
+    marginLeft: 2,
     borderRadius: 1
   }
 });
 
-export default ChatView;
+const Stack = createNativeStackNavigator();
+
+const ChatFrame = () => {
+  return(
+    <NavigationContainer
+    independent={true}
+    >
+      <Stack.Navigator>
+        <Stack.Screen name="chat" component={ChatView}/>
+        <Stack.Screen name="addserver" component={AddServerView}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+
+export default ChatFrame;

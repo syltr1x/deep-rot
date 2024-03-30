@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Button, Alert } from 'react-native';
 import React from "react";
 // Views
 import HomeView from "../views/HomeView";

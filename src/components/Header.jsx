@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Constants from 'expo-constants';
 import { View, Text, StyleSheet, Alert, TouchableOpacity} from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from "@react-navigation/native";
 
 /*--------------------------------------------
 ------------ CONSTANTES DE ESTILO ------------
@@ -53,7 +52,7 @@ const WorkHeader = () => {
 const ChatHeader = () => {
     return (
         <View style={styles.headerBar}>
-            <TouchableOpacity onPress={() => Alert.alert("AÑADIRIA UN SERVIDOR")}>
+            <TouchableOpacity onPress={() => navigation.navigate('AddServer')}>
             <Icon 
                 size={btnSize}
                 name="add-circle-outline"
@@ -67,7 +66,8 @@ const ChatHeader = () => {
                 name="list-outline"
                 style={styles.headerButton}
             />
-            </TouchableOpacity>       
+            </TouchableOpacity>   
+               
         </View>
     )
 }
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         paddingTop: 7,
         paddingBottom: 7,
         color: '#eee',
-    }
+    },
 })
 
 export {
