@@ -1,6 +1,6 @@
 import React from "react";
 import Constants from 'expo-constants';
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity} from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
 
@@ -11,94 +11,105 @@ const btnSize = 32
 const HomeHeader = () => {
     return (
         <View style={styles.headerBar}>
-            <Icon.Button
+            <TouchableOpacity  onPress={() => Alert.alert("TENDRIA QUE IR MI ISOTIPO")}>
+            <Icon
                 size={btnSize}
                 name="bug"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("TENDRIA QUE IR MI ISOTIPO")}
-            ></Icon.Button>
+            />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("EXPLICACION DE APP")}>
+            <Icon
                 size={btnSize}
                 name="help-circle-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("EXPLICACION DE APP")}
-            ></Icon.Button>         
+            />
+            </TouchableOpacity>         
         </View>
     )
 }
 const WorkHeader = () => {
     return (
         <View style={styles.headerBar}>
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("EXPLICACION DE TRABAJOS")}>
+            <Icon
                 size={btnSize}
                 name="add-circle-outline"
                 style={styles.headerButton}
-            ></Icon.Button>
+            />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("EXPLICACION DE TRABAJOS")}>
+            <Icon
                 size={btnSize}
                 name="help-circle-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("EXPLICACION DE TRABAJOS")}
-            ></Icon.Button>         
+            />
+            </TouchableOpacity>         
         </View>
     )
 }
 const ChatHeader = () => {
     return (
         <View style={styles.headerBar}>
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("AÑADIRIA UN SERVIDOR")}>
+            <Icon 
                 size={btnSize}
                 name="add-circle-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("AÑADIRIA UN CHAT")}
-            ></Icon.Button>
+            />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("LISTA DE SERVIDORES")}>
+            <Icon 
                 size={btnSize}
-                name="help-circle-outline"
+                name="list-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("EXPLICACION DE CHAT")}
-            ></Icon.Button>         
+            />
+            </TouchableOpacity>       
         </View>
     )
 }
 const NewsHeader = () => {
     return (
         <View style={styles.headerBar}>
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("AÑADE UNA NOTICIA")}>
+            <Icon
                 size={btnSize}
                 name="add-circle-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("AÑADE UNA NOTICIA")}
-            ></Icon.Button>
+            />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("FILTROS")}>
+            <Icon
                 size={btnSize}
                 name="filter-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("FILTROS")}
-            ></Icon.Button>         
+            />
+            </TouchableOpacity>         
         </View>
     )
 }
 const UserHeader = () => {
     return (
         <View style={styles.headerBar}>
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("CAMBIO DE CUENTA")}>
+            <Icon
                 size={btnSize}
                 name="chevron-down"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("CAMBIO DE CUENTA")}
-            ></Icon.Button>
+            />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <Icon.Button
+            <TouchableOpacity onPress={() => Alert.alert("AJUSTES")}>
+            <Icon
                 size={btnSize}
                 name="cog-outline"
                 style={styles.headerButton}
-                onPress={() => Alert.alert("AJUSTES")}
-            ></Icon.Button>         
+            />
+            </TouchableOpacity>         
         </View>
     )
 }
@@ -124,7 +135,6 @@ const styles = StyleSheet.create({
         paddingTop: 7,
         paddingBottom: 7,
         color: '#eee',
-        backgroundColor: '#111'
     }
 })
 
