@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Constants from 'expo-constants';
 import { View, Text, StyleSheet, Alert, TouchableOpacity} from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from "@react-navigation/native";
 
 /*--------------------------------------------
 ------------ CONSTANTES DE ESTILO ------------
@@ -47,27 +46,6 @@ const WorkHeader = () => {
                 style={styles.headerButton}
             />
             </TouchableOpacity>         
-        </View>
-    )
-}
-const ChatHeader = () => {
-    return (
-        <View style={styles.headerBar}>
-            <TouchableOpacity onPress={() => Alert.alert("AÑADIRIA UN SERVIDOR")}>
-            <Icon 
-                size={btnSize}
-                name="add-circle-outline"
-                style={styles.headerButton}
-            />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <TouchableOpacity onPress={() => Alert.alert("LISTA DE SERVIDORES")}>
-            <Icon 
-                size={btnSize}
-                name="list-outline"
-                style={styles.headerButton}
-            />
-            </TouchableOpacity>       
         </View>
     )
 }
@@ -135,13 +113,12 @@ const styles = StyleSheet.create({
         paddingTop: 7,
         paddingBottom: 7,
         color: '#eee',
-    }
+    },
 })
 
 export {
     HomeHeader,
     WorkHeader,
-    ChatHeader,
     NewsHeader,
     UserHeader
 }
