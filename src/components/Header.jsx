@@ -49,28 +49,6 @@ const WorkHeader = () => {
         </View>
     )
 }
-const ChatHeader = () => {
-    return (
-        <View style={styles.headerBar}>
-            <TouchableOpacity onPress={() => navigation.navigate('AddServer')}>
-            <Icon 
-                size={btnSize}
-                name="add-circle-outline"
-                style={styles.headerButton}
-            />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>(Deep-Rot Logotipo)</Text>   
-            <TouchableOpacity onPress={() => Alert.alert("LISTA DE SERVIDORES")}>
-            <Icon 
-                size={btnSize}
-                name="list-outline"
-                style={styles.headerButton}
-            />
-            </TouchableOpacity>   
-               
-        </View>
-    )
-}
 const NewsHeader = () => {
     return (
         <View style={styles.headerBar}>
@@ -141,7 +119,6 @@ const styles = StyleSheet.create({
 export {
     HomeHeader,
     WorkHeader,
-    ChatHeader,
     NewsHeader,
     UserHeader
 }
