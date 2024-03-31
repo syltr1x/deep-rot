@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
+import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import Constants from 'expo-constants';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Icon from 'react-native-vector-icons/Ionicons';
-import { ChatHeader } from "../components/Header";
 import { io } from 'socket.io-client';
 import AddServerView from './AddServerView';
+import ServersView from './ServersView';
+let servers = []
+let socket
+let setMessages
+
+function addServer(name, ip, port) {servers.push({'name':name, 'ip':ip, 'port':port})}
+function getServer() {return servers}
+function delServer(name, ip, port) {servers = servers.filter(server => server.name !== name || server.ip !== ip || server.port !== port)}
+function modServer() {}
+
+function connect(ip, port) {
+  socket = io.connect(`http://${ip}:${port}`);
+  socket.on('message', (data) => {
+    setMessages(prevMessages => [...prevMessages, data.msg]);
+  });
+}
 
 const ChatView = ({ navigation }) => {
   const [inputValue, setInputValue] = useState('');
-  const [messages, setMessages] = useState([]);
+  [messages, setMessages] = useState([]);
   const handleInputChange = (text) => {
     setInputValue(text);
   };
 
   const handleSubmit = () => {
-    const socket = io.connect('http://192.168.0.26:3000');
     if (inputValue != '') {
       socket.emit('message', { user: "martin", msg: inputValue });
       setInputValue('');
@@ -23,7 +38,7 @@ const ChatView = ({ navigation }) => {
   };
 
   useEffect(() => {
-    const socket = io.connect('http://192.168.0.26:3000');
+    if (typeof socket !== 'undefined') {
     socket.on('message', (data) => {
       setMessages(prevMessages => [...prevMessages, data.msg]);
     });
@@ -31,11 +46,28 @@ const ChatView = ({ navigation }) => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }}, []);
 
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111' }}>
-      <ChatHeader />
+              <View style={ChatStyles.headerBar}>
+            <TouchableOpacity onPress={() => navigation.navigate('addserver')}>
+            <Icon 
+                size={32}
+                name="add-circle-outline"
+                style={ChatStyles.headerButton}
+            />
+            </TouchableOpacity>
+            <Text style={ChatStyles.headerTitle}>(Deep-Rot Logotipo)</Text>   
+            <TouchableOpacity onPress={() => navigation.navigate('listserver')}>
+            <Icon 
+                size={32}
+                name="list-outline"
+                style={ChatStyles.headerButton}
+            />
+            </TouchableOpacity>   
+               
+        </View>
       <ScrollView style={ChatStyles.chatBox} zIndex={0}>
         {messages.map((message, index) => (
           <View key={index} style={ChatStyles.msgBox}>
@@ -51,8 +83,7 @@ const ChatView = ({ navigation }) => {
           onChangeText={handleInputChange}
           value={inputValue}
         />
-        <TouchableOpacity onPress={() => {navigation.navigate("addserver")}}>
-        {/* <TouchableOpacity onPress={handleSubmit}> */}
+        <TouchableOpacity onPress={handleSubmit}>
           <Icon 
             size={32}
             name="arrow-redo-outline"
@@ -107,7 +138,28 @@ const ChatStyles = StyleSheet.create({
     marginRight: 6,
     marginLeft: 2,
     borderRadius: 1
-  }
+  },
+  headerBar:{
+    alignSelf:'stretch',
+    backgroundColor: '#111',
+    display: 'flex',
+    paddingTop: Constants.statusBarHeight+8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'space-between'
+},
+headerTitle:{
+    padding: 14,
+    paddingTop: 7,
+    paddingBottom: 7,
+    color:'#eee',
+},
+headerButton:{ 
+    padding: 14,
+    paddingTop: 7,
+    paddingBottom: 7,
+    color: '#eee',
+},
 });
 
 const Stack = createNativeStackNavigator();
@@ -117,13 +169,24 @@ const ChatFrame = () => {
     <NavigationContainer
     independent={true}
     >
-      <Stack.Navigator>
+      <Stack.Navigator
+      screenOptions={{
+        tabBarShowLabel:false,
+        headerShown:false
+      }}>
         <Stack.Screen name="chat" component={ChatView}/>
         <Stack.Screen name="addserver" component={AddServerView}/>
+        <Stack.Screen name="listserver" component={ServersView}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
 
-export default ChatFrame;
+export {
+  ChatFrame,
+  addServer,
+  getServer,
+  delServer,
+  connect
+}
