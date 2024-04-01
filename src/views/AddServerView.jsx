@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Constants from 'expo-constants';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {addServer} from './ChatView'
+import { addServer } from '../backend/ServerFunctions';
 
 const AddServerView = ({ navigation }) => {
   const [NameValue, setNameValue] = useState('');
@@ -14,7 +14,7 @@ const AddServerView = ({ navigation }) => {
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111'}}>
       <View style={styles.headerBar}>
-            <TouchableOpacity onPress={() => {navigation.navigate("chat")}}>
+            <TouchableOpacity onPress={() => {navigation.navigate("listserver")}}>
             <Icon
                 size={32}
                 name="arrow-back-outline"
