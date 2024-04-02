@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getSocket, getServer } from '../backend/ServerFunctions';
 
 let socket
@@ -29,20 +27,21 @@ const ChatView = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (typeof socket === 'undefined') {
+    if (getServer().name != 'not-connected') {
+      if (typeof socket === 'undefined') {
       socket = getSocket()
-    } if (typeof socket !== 'undefined') {
+    
       if (!manMsg) {
         manMsg = true
         socket.on('message', (data) => {
           setMessages(prevMessages => [...prevMessages, data.msg]);
         })
-      }
+      }}
   }}, []);
 
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111' }}>
-              <View style={ChatStyles.headerBar}>
+          <View style={ChatStyles.headerBar}>
             <TouchableOpacity onPress={() => navigation.navigate('listserver')}>
             <Icon 
                 size={32}
@@ -57,9 +56,10 @@ const ChatView = ({ navigation }) => {
                 name="list-outline"
                 style={[ChatStyles.headerButton, {color: '#111'}]}
             />
-            </TouchableOpacity>   
-               
+            </TouchableOpacity>                  
         </View>
+      {getServer().name != 'not-connected' ?
+      <View style={{flex: 1}}>
       <ScrollView style={ChatStyles.chatBox} zIndex={0}>
         {messages.map((message, index) => (
           <View key={index} style={ChatStyles.msgBox}>
@@ -82,7 +82,7 @@ const ChatView = ({ navigation }) => {
             style={ChatStyles.sendBtn}
           />
       </TouchableOpacity>
-      </View>
+      </View></View> : <View></View>}
     </View>
   );
 };
@@ -153,25 +153,5 @@ headerButton:{
     color: '#eee',
 },
 });
-
-const Stack = createNativeStackNavigator();
-
-const ChatFrame = () => {
-  return(
-    <NavigationContainer
-    independent={true}
-    >
-      <Stack.Navigator
-      screenOptions={{
-        tabBarShowLabel:false,
-        headerShown:false
-      }}>
-        <Stack.Screen name="chat" component={ChatView}/>
-        <Stack.Screen name="addserver" component={AddServerView}/>
-        <Stack.Screen name="listserver" component={ServersView}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
 
 export default ChatView
