@@ -54,7 +54,8 @@ const ServersView = ({ navigation }) => {
           name={server.name}
           ip={server.ip}
           port={server.port}
-          man={setServers}/>
+          man={setServers}
+          log={navigation}/>
         )}
       />
     </View>

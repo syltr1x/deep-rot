@@ -1,7 +1,7 @@
 import React from "react"
 import { View, StyleSheet, Text, TouchableOpacity} from "react-native"
 import Icon from 'react-native-vector-icons/Ionicons';
-import { connect, delServer, getServer, disconnect} from "../backend/ServerFunctions";
+import { connect, delServer, getServer, disconnect, swapServer} from "../backend/ServerFunctions";
 
 const ServerItem = (props) => {
     const [server, setServer] = React.useState([]);
@@ -26,7 +26,7 @@ const ServerItem = (props) => {
                     ></Icon>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => {navigation.navigate("listserver")}}
+                    onPress={() => {swapServer(props.name, props.ip, props.port); props.log.navigate("modserver")}}
                     style={[ServerStyles.ServerBtn, {backgroundColor: '#499'}]}
                     ><Icon
                     size={28}
