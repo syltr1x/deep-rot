@@ -1,36 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import Constants from 'expo-constants';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {getServer} from './ChatView.jsx'
 import ServerItem from '../components/ServerItem.jsx';
+import { getServers } from '../backend/ServerFunctions.js';
+import ChatView from './ChatView.jsx'
+import AddServerView from './AddServerView.jsx';
+import ModServerView from './ModServerView.jsx';
 
 const ServersView = ({ navigation }) => {
-  const servers = getServer()
+  const [servers, setServers] = useState([]);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedServers = getServers();
+      setServers(fetchedServers);
+    };
+
+    if (isFocused) {
+      fetchData();
+    }
+
+    return () => {};
+  }, [isFocused]);
+
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111'}}>
       <View style={styles.headerBar}>
-            <TouchableOpacity onPress={() => {navigation.navigate("chat")}}>
-            <Icon 
-                size={32}
-                name="arrow-back-outline"
-                style={styles.headerButton}
-            />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Lista de Servidores</Text>   
-            <TouchableOpacity>
-            <Icon 
-                size={32}
-                name="list-outline"
-                style={[styles.headerButton, {color:'#111'}]}/>
-            </TouchableOpacity>   
-        </View>
-        {servers != [] ? <FlatList
-          data={servers}
-          renderItem={({item: server}) => (
-            <ServerItem {...server}/>
-          )}
-          />: <Text>NOOO</Text>}
+        <TouchableOpacity onPress={() => {navigation.navigate("addserver")}}>
+          <Icon 
+            size={32}
+            name="add-circle-outline"
+            style={styles.headerButton}
+          />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Servidores</Text>   
+        <TouchableOpacity onPress={() => {navigation.navigate("chat")}}>
+          <Icon 
+            size={32}
+            name="chatbox-ellipses-outline"
+            style={styles.headerButton}
+          />
+        </TouchableOpacity>   
+      </View>
+      <FlatList
+        data={servers}
+        renderItem={({item: server}) => (
+          <ServerItem 
+          name={server.name}
+          ip={server.ip}
+          port={server.port}
+          man={setServers}
+          log={navigation}/>
+        )}
+      />
     </View>
   );
 };
@@ -85,4 +112,27 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ServersView;
+const Stack = createNativeStackNavigator();
+
+const ServerFrame = () => {
+  return(
+    <NavigationContainer
+    independent={true}
+    >
+      <Stack.Navigator
+      screenOptions={{
+        tabBarShowLabel:false,
+        headerShown:false
+      }}>
+        <Stack.Screen name="listserver" component={ServersView}/>
+        <Stack.Screen name="addserver" component={AddServerView}/>
+        <Stack.Screen name="chat" component={ChatView}/>
+        <Stack.Screen name="modserver" component={ModServerView}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+export {
+  ServerFrame,
+}

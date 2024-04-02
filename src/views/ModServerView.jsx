@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import Constants from 'expo-constants';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { addServer } from '../backend/ServerFunctions';
+import { modServer, getSwap } from '../backend/ServerFunctions';
 
-const AddServerView = ({ navigation }) => {
+const ModServerView = ({ navigation }) => {
+  const swap = getSwap()
   const [NameValue, setNameValue] = useState('');
   const [IpValue, setIpValue] = useState('');
   const [PortValue, setPortValue] = useState('');
@@ -21,7 +22,7 @@ const AddServerView = ({ navigation }) => {
                 style={styles.headerButton}
             />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Añadir un Servidor</Text>   
+            <Text style={styles.headerTitle}>Modificar un Servidor</Text>   
             <TouchableOpacity>
             <Icon 
                 size={32}
@@ -32,31 +33,28 @@ const AddServerView = ({ navigation }) => {
       <View style={styles.boxForm}>
         <TextInput
         style={styles.inputForm}
-        placeholder='Nombre del Servidor'
+        placeholder={swap.name}
         keyboardType='default'
         onChangeText={handleNameChange}
         ></TextInput>
         <TextInput
         style={styles.inputForm}
-        placeholder='Ip del Servidor'
+        placeholder={swap.ip}
         keyboardType='decimal-pad'
         onChangeText={handleIpChange}
         ></TextInput>
         <TextInput
         style={styles.inputForm}
-        placeholder='Puerto del Servidor'
+        placeholder={swap.port}
         keyboardType='decimal-pad'
         onChangeText={handlePortChange}
         ></TextInput>
         <TouchableOpacity
         style={styles.inputButton}
-        onPress={() => addServer(NameValue, IpValue, PortValue)}
+        onPress={() => modServer(swap.name, swap.ip, swap.port, NameValue, IpValue, PortValue)}
         >
-          <Icon
-          size={32}
-          name="add-circle-outline"
-          ></Icon>
-          <Text>Añadir</Text>
+          <Text style={{fontSize: 16}}
+          >Modificar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
   inputButton:{
     alignItems: 'center',
     justifyContent:'center',
-    padding: 3,
+    padding: 7,
     flexDirection: 'row',
     marginTop : 30,
     backgroundColor: '#494',
@@ -113,4 +111,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AddServerView;
+export default ModServerView;

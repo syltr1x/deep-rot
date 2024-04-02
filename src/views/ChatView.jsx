@@ -2,72 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { io } from 'socket.io-client';
-import AddServerView from './AddServerView';
-import ServersView from './ServersView';
-let servers = []
+import { getSocket, getServer } from '../backend/ServerFunctions';
+
 let socket
+let manMsg = false
 let setMessages
-
-function addServer(name, ip, port) {servers.push({'name':name, 'ip':ip, 'port':port})}
-function getServer() {return servers}
-function delServer(name, ip, port) {servers = servers.filter(server => server.name !== name || server.ip !== ip || server.port !== port)}
-function modServer() {}
-
-function connect(ip, port) {
-  socket = io.connect(`http://${ip}:${port}`);
-  socket.on('message', (data) => {
-    setMessages(prevMessages => [...prevMessages, data.msg]);
-  });
-}
 
 const ChatView = ({ navigation }) => {
   const [inputValue, setInputValue] = useState('');
   [messages, setMessages] = useState([]);
-  const handleInputChange = (text) => {
+  const handleInputChange = (text) => { 
     setInputValue(text);
   };
 
   const handleSubmit = () => {
-    if (inputValue != '') {
-      socket.emit('message', { user: "martin", msg: inputValue });
-      setInputValue('');
+    if (typeof socket === 'undefined') {
+      socket = getSocket()
+    } if (typeof socket !== 'undefined') {
+      if (inputValue != '') {
+        socket.emit('message', { user: "martin", msg: inputValue });
+        setInputValue('');
+      }
     }
   };
 
   useEffect(() => {
-    if (typeof socket !== 'undefined') {
-    socket.on('message', (data) => {
-      setMessages(prevMessages => [...prevMessages, data.msg]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
+    if (getServer().name != 'not-connected') {
+      if (typeof socket === 'undefined') {
+      socket = getSocket()
+    
+      if (!manMsg) {
+        manMsg = true
+        socket.on('message', (data) => {
+          setMessages(prevMessages => [...prevMessages, data.msg]);
+        })
+      }}
   }}, []);
 
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111' }}>
-              <View style={ChatStyles.headerBar}>
-            <TouchableOpacity onPress={() => navigation.navigate('addserver')}>
-            <Icon 
-                size={32}
-                name="add-circle-outline"
-                style={ChatStyles.headerButton}
-            />
-            </TouchableOpacity>
-            <Text style={ChatStyles.headerTitle}>(Deep-Rot Logotipo)</Text>   
+          <View style={ChatStyles.headerBar}>
             <TouchableOpacity onPress={() => navigation.navigate('listserver')}>
             <Icon 
                 size={32}
-                name="list-outline"
+                name="arrow-back-outline"
                 style={ChatStyles.headerButton}
             />
-            </TouchableOpacity>   
-               
+            </TouchableOpacity>
+            <Text style={ChatStyles.headerTitle}>{getServer().name}</Text>   
+            <TouchableOpacity>
+            <Icon 
+                size={32}
+                name="list-outline"
+                style={[ChatStyles.headerButton, {color: '#111'}]}
+            />
+            </TouchableOpacity>                  
         </View>
+      {getServer().name != 'not-connected' ?
+      <View style={{flex: 1}}>
       <ScrollView style={ChatStyles.chatBox} zIndex={0}>
         {messages.map((message, index) => (
           <View key={index} style={ChatStyles.msgBox}>
@@ -90,7 +82,7 @@ const ChatView = ({ navigation }) => {
             style={ChatStyles.sendBtn}
           />
       </TouchableOpacity>
-      </View>
+      </View></View> : <View></View>}
     </View>
   );
 };
@@ -110,7 +102,7 @@ const ChatStyles = StyleSheet.create({
     zIndex: 0,
   },
   msgBox: {
-    backgroundColor: '#030',
+    backgroundColor: '#474',
     borderRadius: 4,
     marginTop: 10,
     padding: 8
@@ -162,31 +154,4 @@ headerButton:{
 },
 });
 
-const Stack = createNativeStackNavigator();
-
-const ChatFrame = () => {
-  return(
-    <NavigationContainer
-    independent={true}
-    >
-      <Stack.Navigator
-      screenOptions={{
-        tabBarShowLabel:false,
-        headerShown:false
-      }}>
-        <Stack.Screen name="chat" component={ChatView}/>
-        <Stack.Screen name="addserver" component={AddServerView}/>
-        <Stack.Screen name="listserver" component={ServersView}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
-
-
-export {
-  ChatFrame,
-  addServer,
-  getServer,
-  delServer,
-  connect
-}
+export default ChatView

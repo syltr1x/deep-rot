@@ -4,7 +4,7 @@ import React from "react";
 // Views
 import HomeView from "../views/HomeView";
 import WorkView from "../views/WorkView";
-import {ChatFrame} from "../views/ChatView";
+import {ServerFrame} from "../views/ServersView";
 import NewsView from "../views/NewsView"
 import UserView from "../views/UserView"
 
@@ -46,7 +46,7 @@ export const BottomTab = () => {
         >
             <Tab.Screen name="Home" component={ HomeView }/>
             <Tab.Screen name="Works" component={ WorkView }/>
-            <Tab.Screen name="Chat" component={ ChatFrame } />
+            <Tab.Screen name="Chat" component={ ServerFrame } />
             <Tab.Screen name="News" component={ NewsView } />
             <Tab.Screen name="User" component={ UserView } />
         </Tab.Navigator>
