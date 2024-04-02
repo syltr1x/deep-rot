@@ -9,6 +9,7 @@ import ServerItem from '../components/ServerItem.jsx';
 import { getServers } from '../backend/ServerFunctions.js';
 import ChatView from './ChatView.jsx'
 import AddServerView from './AddServerView.jsx';
+import ModServerView from './ModServerView.jsx';
 
 const ServersView = ({ navigation }) => {
   const [servers, setServers] = useState([]);
@@ -24,7 +25,7 @@ const ServersView = ({ navigation }) => {
       fetchData();
     }
 
-    return () => {}; // Limpia el efecto al desmontar el componente
+    return () => {};
   }, [isFocused]);
 
   return (
@@ -49,7 +50,11 @@ const ServersView = ({ navigation }) => {
       <FlatList
         data={servers}
         renderItem={({item: server}) => (
-          <ServerItem {...server}/>
+          <ServerItem 
+          name={server.name}
+          ip={server.ip}
+          port={server.port}
+          man={setServers}/>
         )}
       />
     </View>
@@ -121,6 +126,7 @@ const ServerFrame = () => {
         <Stack.Screen name="listserver" component={ServersView}/>
         <Stack.Screen name="addserver" component={AddServerView}/>
         <Stack.Screen name="chat" component={ChatView}/>
+        <Stack.Screen name="modserver" component={ModServerView}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

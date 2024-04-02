@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Constants from 'expo-constants';
-import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { addServer } from '../backend/ServerFunctions';
 

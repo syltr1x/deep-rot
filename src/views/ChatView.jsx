@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { getSocket } from '../backend/ServerFunctions';
+import { getSocket, getServer } from '../backend/ServerFunctions';
 
 let socket
 let manMsg = false
@@ -50,7 +50,7 @@ const ChatView = ({ navigation }) => {
                 style={ChatStyles.headerButton}
             />
             </TouchableOpacity>
-            <Text style={ChatStyles.headerTitle}>Chat Name</Text>   
+            <Text style={ChatStyles.headerTitle}>{getServer().name}</Text>   
             <TouchableOpacity>
             <Icon 
                 size={32}

@@ -4,7 +4,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect, delServer, getServer, disconnect} from "../backend/ServerFunctions";
 
 const ServerItem = (props) => {
-    let server = getServer()
+    const [server, setServer] = React.useState([]);
+    React.useEffect(() => {
+        const fetchedServer = getServer();
+        setServer(fetchedServer);
+        return () => {};
+        }, [])
     return (
         <View key={props.name} style={ServerStyles.serverBox}>
             <View>
@@ -13,7 +18,7 @@ const ServerItem = (props) => {
             </View>
             <View style={{flexDirection:'row'}}>
                 <TouchableOpacity
-                onPress={() => {delServer(props.name, props.ip, props.port)}}
+                onPress={() => {delServer(props.name, props.ip, props.port, props.man)}}
                     style={[ServerStyles.ServerBtn, {backgroundColor: '#944'}]}
                     ><Icon
                     size={28}
@@ -21,6 +26,7 @@ const ServerItem = (props) => {
                     ></Icon>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    onPress={() => {navigation.navigate("listserver")}}
                     style={[ServerStyles.ServerBtn, {backgroundColor: '#499'}]}
                     ><Icon
                     size={28}
@@ -29,7 +35,7 @@ const ServerItem = (props) => {
                 </TouchableOpacity>
                 {server.name != props.name || server.ip != props.ip ?
                 <TouchableOpacity
-                    onPress={() => {connect(props.name, props.ip, props.port)}}
+                    onPress={() => {connect(props.name, props.ip, props.port, setServer)}}
                     style={[ServerStyles.ServerBtn, {backgroundColor: '#494'}]}
                 ><Icon
                     size={28}
@@ -37,7 +43,7 @@ const ServerItem = (props) => {
                     ></Icon>
                 </TouchableOpacity>: 
                 <TouchableOpacity
-                    onPress={() => {disconnect(props.name, props.ip, props.port)}}
+                    onPress={() => {disconnect(setServer)}}
                     style={[ServerStyles.ServerBtn, {backgroundColor: '#944'}]}
                 ><Icon
                     size={28}
