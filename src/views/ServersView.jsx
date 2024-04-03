@@ -133,6 +133,4 @@ const ServerFrame = () => {
   )
 }
 
-export {
-  ServerFrame,
-}
+export default ServerFrame
