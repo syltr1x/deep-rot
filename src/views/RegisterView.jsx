@@ -8,7 +8,7 @@ import {doc, setDoc, getFirestore} from 'firebase/firestore'
 const auth = getAuth(appFirebase)
 const firestore = getFirestore(appFirebase)
 
-const RegisterView = ({ navigation }) => {
+const RegisterView = ({ navigation, route }) => {
     const [userValue, setUserValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
@@ -33,7 +33,7 @@ const RegisterView = ({ navigation }) => {
     return (
         <View style={{ flexGrow: 1, backgroundColor:'#111' }}>
             <View style={styles.headerBar}>
-                <TouchableOpacity  onPress={() => {navigation.navigate('users')}}>
+                <TouchableOpacity  onPress={() => {navigation.navigate(typeof route.params !== 'undefined' ? route.params.origen : 'users')}}>
                 <Icon
                     size={32}
                     name="arrow-back-outline"

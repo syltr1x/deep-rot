@@ -30,7 +30,7 @@ const RegisterView = ({ navigation, route }) => {
     return (
         <View style={{ flexGrow: 1, backgroundColor:'#111' }}>
             <View style={styles.headerBar}>
-            <TouchableOpacity  onPress={() => {navigation.navigate(route.params.origen)}}>
+            <TouchableOpacity  onPress={() => {navigation.navigate(typeof route.params !== 'undefined' ? route.params.origen : 'users')}}>
             <Icon
                 size={32}
                 name="arrow-back-outline"
@@ -77,9 +77,13 @@ const RegisterView = ({ navigation, route }) => {
                     style={[styles.inputButton, userValue != '' && passwordValue.length >= 8 ? {backgroundColor:'#448f44'}: {backgroundColor:'#446044'}]}                    
                     ><Text>Inicio de Sesion</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('register')}>
-                    <Text>Iniciar sesión</Text>
-                </TouchableOpacity>
+                <View style={{marginTop:'15%',paddingBottom: 15, justifyContent:'center', flexDirection: 'row'}}>
+                <Text style={{ display: 'flex', color:'#ddd'}}>¿No tienes una cuenta?   </Text>
+                    <TouchableOpacity 
+                        onPress={() => navigation.navigate('register', {origen:'login'})}
+                        ><Text style={{ display: 'flex', color: '#999', textDecorationLine: 'underline'}}>Crea una</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )}
