@@ -3,6 +3,7 @@
 # dependencies
 node_modules/
 assets/
+credenciales.js
 
 # Expo
 .expo/
