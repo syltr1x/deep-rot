@@ -3,8 +3,7 @@ import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import appFirebase from "../backend/credenciales";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
-import { getFirestore, doc, getDoc } from "firebase/firestore"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 const auth = getAuth(appFirebase)
 
 const RegisterView = ({ navigation, route }) => {
