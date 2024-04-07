@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Constants from 'expo-constants';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { UserHeader } from "../components/Header";
+import { Text, View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import LoginView from "./LoginView";
+import Icon from 'react-native-vector-icons/Ionicons';
 import RegisterView from "./RegisterView";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore"
@@ -33,18 +33,27 @@ const UserView = ({ navigation}) => {
 
   return (
       <View style={{flexGrow: 1 , backgroundColor: '#111'}}>
-        <UserHeader></UserHeader>
-        <Text style={{color: '#eee'}}>USUARIO ACTUAL: {user != '' ? user : 'Anonimo'}</Text>
-        <TouchableOpacity
-        onPress={() => {navigation.navigate("login", {origen:'users'})}}>
-          <Text style={{color: '#eee'}}>IR A LOGIN</Text>
+        <View style={styles.headerBar}>
+        <TouchableOpacity onPress={() => Alert.alert("CAMBIO DE CUENTA")}>
+        <Icon
+            size={32}
+            name="chevron-down"
+            style={styles.headerButton}
+        />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("register")}>
-          <Text style={{ color: '#eee' }}>Ir a Registro</Text>
-        </TouchableOpacity>
+        <Text style={styles.headerTitle}>USUARIO ACTUAL: {user != '' ? user : 'Anonimo'}</Text>   
         <TouchableOpacity
-          onPress={() => {signOut(auth)}}
-          ><Text style={{color: '#fff'}}>Cerrar Sesion</Text></TouchableOpacity>
+        onPress={() => {user != '' ? signOut(auth) : navigation.navigate("login", {origen:'users'})}}
+        ><Icon
+            size={32}
+            name={user != '' ? "log-out-outline": "log-in-outline"}
+            style={styles.headerButton}
+        />
+        </TouchableOpacity>         
+        </View>
+        <View>
+
+        </View>
       </View>
 
   )
@@ -69,4 +78,28 @@ const UsersFrame = () => {
     </NavigationContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  headerBar:{
+      alignSelf:'stretch',
+      backgroundColor: '#111',
+      display: 'flex',
+      paddingTop: Constants.statusBarHeight+8,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent:'space-between'
+  },
+  headerTitle:{
+      padding: 14,
+      paddingTop: 7,
+      paddingBottom: 7,
+      color:'#eee',
+  },
+  headerButton:{ 
+      padding: 14,
+      paddingTop: 7,
+      paddingBottom: 7,
+      color: '#eee',
+  },
+})
 export default UsersFrame
