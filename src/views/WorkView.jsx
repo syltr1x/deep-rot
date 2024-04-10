@@ -6,7 +6,6 @@ import Repository from '../components/Repository.jsx'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import appFirebase from "../backend/credenciales.js";
-
 const auth = getAuth(appFirebase)
 const firestore = getFirestore(appFirebase)
 
@@ -14,20 +13,20 @@ const WorkView = () => {
   const [user, setUser] = React.useState('')
   const [repos, setRepos] = React.useState([])
 
-  const getRepos = async(uid) => {
-    docuRef = doc(firestore `users/${uid}`)
+  const getUser = async(uid) => {
+    docuRef = doc(firestore, `users/${uid}`)
     docuCi = await getDoc(docuRef)
-    info = docuCi.data()
-    return {user:info.user, repos:info.repos}
+    userInfo = docuCi.data()
+    return userInfo
   }
 
   onAuthStateChanged(auth, (firebaseUser) => {
     if (firebaseUser) {
-      getRepos(firebaseUser.uid).then((info) => {
-        setRepos(info.repos)
+      getUser(firebaseUser.uid).then((info) => {
         setUser(info.user)
-      }) 
-    } else {setRepos([]); setUser('')}
+        setRepos(info.repos)
+      })
+    } else {setUser('')}
   })
 
     return (
@@ -55,7 +54,7 @@ const WorkView = () => {
           renderItem={({item: repo}) => (
             <Repository {...repo}/>
           )}
-          />: null}
+          />: <Text>HOLA NENO</Text>}
         </View>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Constants from 'expo-constants';
-import { Text, View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import LoginView from "./LoginView";
@@ -19,14 +19,14 @@ const UserView = ({ navigation}) => {
   const getUser = async(uid) => {
     docuRef = doc(firestore, `users/${uid}`)
     docuCi = await getDoc(docuRef)
-    userInfo = docuCi.data().user
+    userInfo = docuCi.data()
     return userInfo
   }
 
   onAuthStateChanged(auth, (firebaseUser) => {
     if (firebaseUser) {
-      getUser(firebaseUser.uid).then((user) => {
-        setUser(user)
+      getUser(firebaseUser.uid).then((info) => {
+        setUser(info)
       })
     } else {setUser('')}
   })
@@ -41,7 +41,7 @@ const UserView = ({ navigation}) => {
             style={styles.headerButton}
         />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>USUARIO ACTUAL: {user != '' ? user : 'Anonimo'}</Text>   
+        <Text style={styles.headerTitle}>USUARIO ACTUAL: {user.user != '' ? user.user : 'Anonimo'}</Text>   
         <TouchableOpacity
         onPress={() => {user != '' ? signOut(auth) : navigation.navigate("login", {origen:'users'})}}
         ><Icon
@@ -51,8 +51,13 @@ const UserView = ({ navigation}) => {
         />
         </TouchableOpacity>         
         </View>
-        <View>
-
+        <View style={{backgroundColor: '#888', width: '60%', height:'30%'}}>
+          <TouchableOpacity onPress={() => console.log(user.profile)}>
+            <Text>Mostrador</Text>
+          </TouchableOpacity>
+          <Image style={{width: 90, height:90}}
+          source={user.profile != '' ? { uri: user.profile } : '../data/user.png'}
+          ></Image>
         </View>
       </View>
 
