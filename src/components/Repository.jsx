@@ -1,8 +1,8 @@
 import React from "react"
-import { View, StyleSheet, Text, Image} from "react-native"
+import { View, StyleSheet, Text, Image, TouchableOpacity, Linking} from "react-native"
 
 const Repository = (props) => (
-    <View key={props.id} style={RepoStyles.repository}>
+    <TouchableOpacity key={props.id} style={RepoStyles.repository} onPress={() => {Linking.openURL(props.url)}}>
         <Image
         style={RepoStyles.image}
         source={props.imageicon !== "" ? { uri: props.imageicon } : require('../data/block.png')}
@@ -12,10 +12,9 @@ const Repository = (props) => (
             <Text style={RepoStyles.desc}>{props.description}</Text>
             <View style={RepoStyles.footer}>
                 <Text style={RepoStyles.ftrText}>by: {props.author}</Text>
-                <Text style={RepoStyles.ftrText}>{props.date}  </Text>
             </View>
         </View>    
-    </View>
+    </TouchableOpacity>
 )
 
 const RepoStyles = StyleSheet.create({

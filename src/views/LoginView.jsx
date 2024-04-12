@@ -7,11 +7,9 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 const auth = getAuth(appFirebase)
 
 const RegisterView = ({ navigation, route }) => {
-    const [userValue, setUserValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
 
-    const handleUserChange = (text) => setUserValue(text);
     const handlePasswordChange = (text) => setPasswordValue(text);
     const handleEmailChange = (text) => setEmailValue(text);
 
@@ -19,12 +17,12 @@ const RegisterView = ({ navigation, route }) => {
       try {
         signInWithEmailAndPassword(auth, emailValue, passwordValue)
         Alert.alert('Has iniciado sesion!');
-        setUserValue('');
         setEmailValue('');
         setPasswordValue('');
         } catch(error) {
             Alert.alert('Error', error.message);
         };
+        navigation.navigate("users")
       }
     return (
         <View style={{ flexGrow: 1, backgroundColor:'#111' }}>
@@ -47,14 +45,6 @@ const RegisterView = ({ navigation, route }) => {
         </View>
             <View style={styles.boxForm}>
                 <TextInput
-                    placeholder="Usuario"
-                    onChangeText={handleUserChange}
-                    value={userValue}
-                    placeholderTextColor="#888"
-                    color="#aaa"
-                    style={styles.inputForm}
-                />
-                <TextInput
                     placeholder="Correo Electronico"
                     onChangeText={handleEmailChange}
                     value={emailValue}
@@ -72,8 +62,8 @@ const RegisterView = ({ navigation, route }) => {
                     secureTextEntry={true}
                 />
                 <TouchableOpacity 
-                    onPress={userValue != '' && emailValue != '' && passwordValue.length > 8 ? submitHandler: () => {Alert.alert("Porfavor Completa todos los campos!", "* contraseña de 8 o más caracteres")}}
-                    style={[styles.inputButton, userValue != '' && passwordValue.length >= 8 ? {backgroundColor:'#448f44'}: {backgroundColor:'#446044'}]}                    
+                    onPress={emailValue != '' && passwordValue.length > 8 ? submitHandler: () => {Alert.alert("Porfavor Completa todos los campos!", "* contraseña de 8 o más caracteres")}}
+                    style={[styles.inputButton, passwordValue.length >= 8 ? {backgroundColor:'#448f44'}: {backgroundColor:'#446044'}]}                    
                     ><Text>Inicio de Sesion</Text>
                 </TouchableOpacity>
                 <View style={{marginTop:'15%',paddingBottom: 15, justifyContent:'center', flexDirection: 'row'}}>
