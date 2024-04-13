@@ -20,6 +20,11 @@ const UserView = ({ navigation}) => {
     docuRef = doc(firestore, `users/${uid}`)
     docuCi = await getDoc(docuRef)
     userInfo = docuCi.data()
+    let starCount = 0;
+    userInfo.repos.forEach(repo => {
+      starCount += repo.stars;
+    });
+    userInfo.stars = starCount
     return userInfo
   }
 
@@ -59,10 +64,10 @@ const UserView = ({ navigation}) => {
             ></Image>
           </View>
           <View style={{flexDirection:'column', flex:0.8, marginLeft:12}}>
-            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 20}}>{user.user != '' && user.user != undefined ? `Usuario Actual: ${user.user}` : 'Desconectado'}</Text>
+            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 20}}>{user.user != '' && user.user != undefined ? user.user : 'Desconectado'}</Text>
             <View style={{flexDirection: 'row', justifyContent:'space-between', flex:1}}>
-              <Text style={{color: '#fff', fontSize: 14}}>Repos: </Text>
-              <Text style={{color: '#fff', fontSize: 14, paddingRight: 20}}>Stars: </Text>    
+              <Text style={{color: '#fff', fontSize: 14}}>Repos: {user.repos != undefined ? user.repos.length : 'NaN'}</Text>
+              <Text style={{color: '#fff', fontSize: 14, paddingRight: 20}}>Stars: {user.stars != undefined ? user.stars : 'NaN'}</Text>    
             </View> 
           </View>
         </View>
