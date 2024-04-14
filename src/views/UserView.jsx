@@ -34,14 +34,14 @@ const UserView = ({ navigation}) => {
   return (
       <View style={{flexGrow: 1 , backgroundColor: '#111'}}>
         <View style={styles.headerBar}>
-        <TouchableOpacity onPress={() => Alert.alert("CAMBIO DE CUENTA")}>
+        <TouchableOpacity onPress={() => Alert.alert("Configuracion")}>
         <Icon
             size={32}
-            name="chevron-down"
+            name="cog-outline"
             style={styles.headerButton}
         />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>USUARIO ACTUAL: {user.user != '' ? user.user : 'Anonimo'}</Text>   
+        <Text style={styles.headerTitle}>Mi Cuenta</Text>   
         <TouchableOpacity
         onPress={() => {user != '' ? signOut(auth) : navigation.navigate("login", {origen:'users'})}}
         ><Icon
@@ -51,21 +51,25 @@ const UserView = ({ navigation}) => {
         />
         </TouchableOpacity>         
         </View>
-        <View style={{backgroundColor: '#888', width: '60%', height:'30%'}}>
-          <TouchableOpacity onPress={() => console.log(user.profile)}>
-            <Text>Mostrador</Text>
-          </TouchableOpacity>
-          <Image style={{width: 90, height:90}}
-          source={user.profile != '' ? { uri: user.profile } : '../data/user.png'}
-          ></Image>
+        <View style={{flexDirection: 'row', marginTop: 20, marginHorizontal: 18}}>
+          <View style={styles.profile}>
+            <Image 
+              style={{width: 110, height:110}}
+              source={user.profile != '' && user.profile != undefined? { uri: user.profile } : require('../data/user.png')}
+            ></Image>
+          </View>
+          <View style={{flexDirection:'column', flex:0.8, marginLeft:12}}>
+            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 20}}>{user.user != '' && user.user != undefined ? `Usuario Actual: ${user.user}` : 'Desconectado'}</Text>
+            <View style={{flexDirection: 'row', justifyContent:'space-between', flex:1}}>
+              <Text style={{color: '#fff', fontSize: 14}}>Repos: </Text>
+              <Text style={{color: '#fff', fontSize: 14, paddingRight: 20}}>Stars: </Text>    
+            </View> 
+          </View>
         </View>
       </View>
-
   )
 }
-
 const Stack = createNativeStackNavigator();
-
 const UsersFrame = () => {
   return(
     <NavigationContainer
@@ -106,5 +110,16 @@ const styles = StyleSheet.create({
       paddingBottom: 7,
       color: '#eee',
   },
+  profile:{
+    margin: 10, 
+    padding: 10,
+    alignSelf: 'flex-start',
+    borderColor: '#aaa',
+    borderWidth: 2,
+    borderRadius: 999,
+    overflow: 'hidden',
+    padding: 0,
+    margin: 0,
+  }
 })
 export default UsersFrame
