@@ -3,12 +3,37 @@ import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity, Alert}
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getSocket, getServer } from '../backend/ServerFunctions';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged} from 'firebase/auth';
+import appFirebase from '../backend/credenciales';
+
+const firestore = getFirestore(appFirebase)
+const auth = getAuth(appFirebase)
 
 let socket
 let manMsg = false
 let setMessages
 
 const ChatView = ({ navigation }) => {
+
+  // User Variables
+  const [user, setUser] = useState('');
+  const getUser = async(uid) => {
+    docuRef = doc(firestore, `users/${uid}`)
+    docuCi = await getDoc(docuRef)
+    userInfo = docuCi.data()
+    return userInfo
+  }
+
+  onAuthStateChanged(auth, (firebaseUser) => {
+    if (firebaseUser) {
+      getUser(firebaseUser.uid).then((info) => {
+        setUser(info)
+      })
+    } else {setUser('')}
+  })
+
+  // Message Variables
   const [inputValue, setInputValue] = useState('');
   [messages, setMessages] = useState([]);
   const handleInputChange = (text) => { 
@@ -20,7 +45,7 @@ const ChatView = ({ navigation }) => {
       socket = getSocket()
     } if (typeof socket !== 'undefined') {
       if (inputValue != '') {
-        socket.emit('message', { user: "martin", msg: inputValue });
+        socket.emit('message', { user: user.user, msg: inputValue });
         setInputValue('');
       }
     }
@@ -49,7 +74,7 @@ const ChatView = ({ navigation }) => {
                 style={ChatStyles.headerButton}
             />
             </TouchableOpacity>
-            <Text style={ChatStyles.headerTitle}>{getServer().name}</Text>   
+            <Text style={ChatStyles.headerTitle}>{`${getServer().name} / ${getServer().ip}:${getServer().port}`}</Text>   
             <TouchableOpacity>
             <Icon 
                 size={32}
