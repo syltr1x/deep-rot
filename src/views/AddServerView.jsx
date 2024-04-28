@@ -1,8 +1,11 @@
+// React-Native Imports
 import React, {useState} from 'react';
 import Constants from 'expo-constants';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+// Server and Database Functions
 import { addServer } from '../backend/ServerFunctions';
+import { storeServer } from '../backend/userFunctions';
 
 const AddServerView = ({ navigation }) => {
   const [NameValue, setNameValue] = useState('');
@@ -50,7 +53,21 @@ const AddServerView = ({ navigation }) => {
         ></TextInput>
         <TouchableOpacity
         style={styles.inputButton}
-        onPress={() => addServer(NameValue, IpValue, PortValue)}
+        onPress={() => {
+          try {
+            addServer(NameValue, IpValue, PortValue)
+            storeServer({'name':NameValue, 'ip':IpValue, 'port':PortValue})
+            Alert.alert("Servidor añadido Correctamente!")
+            // Fields Cleaning
+            setNameValue('')
+            setIpValue('')
+            setPortValue('')
+            // Servers List View
+            navigation.navigate('listserver')
+          } catch(e) {
+            Alert.alert("An Error has ocurred", e)
+          }
+        }}
         >
           <Icon
           size={32}
