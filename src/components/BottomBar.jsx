@@ -5,7 +5,6 @@ import React from "react";
 import HomeView from "../views/HomeView";
 import WorkView from "../views/WorkView";
 import ServerFrame from "../views/ServersView";
-import NewsView from "../views/NewsView"
 import UsersFrame from "../views/UserView"
 
 const Tab = createBottomTabNavigator();
@@ -33,21 +32,17 @@ export const BottomTab = () => {
                         case 'Chat':
                             iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
                             break;
-                        case 'News':
-                            iconName = focused ? 'newspaper' : 'newspaper-outline';
-                            break;
                         case 'User':
                             iconName = focused ? 'person-circle' : 'person-circle-outline';
                             break;
                     }
-                    return <Icon name = { iconName } size = { size } color = { color } />
+                    return <Icon name = { iconName } size = { 32 } color = { color } />
                 }
             })}
         >
             <Tab.Screen name="Home" component={ HomeView }/>
             <Tab.Screen name="Works" component={ WorkView }/>
             <Tab.Screen name="Chat" component={ ServerFrame } />
-            <Tab.Screen name="News" component={ NewsView } />
             <Tab.Screen name="User" component={ UsersFrame } />
         </Tab.Navigator>
     )
