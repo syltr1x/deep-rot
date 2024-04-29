@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+// React-Native Imports
+import React from "react";
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+// Firebase Imports
 import appFirebase from "../backend/credenciales";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+
 const auth = getAuth(appFirebase)
 
 const RegisterView = ({ navigation, route }) => {
-    const [passwordValue, setPasswordValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
+    const [passwordValue, setPasswordValue] = React.useState('');
+    const [emailValue, setEmailValue] = React.useState('');
 
     const handlePasswordChange = (text) => setPasswordValue(text);
     const handleEmailChange = (text) => setEmailValue(text);
@@ -19,10 +22,10 @@ const RegisterView = ({ navigation, route }) => {
         Alert.alert('Has iniciado sesion!');
         setEmailValue('');
         setPasswordValue('');
+        Alert.alert('Has iniciado sesion!');
         } catch(error) {
             Alert.alert('Error', error.message);
         };
-        navigation.navigate("users")
       }
     return (
         <View style={{ flexGrow: 1, backgroundColor:'#111' }}>
@@ -62,9 +65,9 @@ const RegisterView = ({ navigation, route }) => {
                     secureTextEntry={true}
                 />
                 <TouchableOpacity 
-                    onPress={emailValue != '' && passwordValue.length > 8 ? submitHandler: () => {Alert.alert("Porfavor Completa todos los campos!", "* contraseña de 8 o más caracteres")}}
+                    onPress={emailValue != '' && passwordValue.length >= 8 ? submitHandler: () => {Alert.alert("Porfavor Completa todos los campos!", "* contraseña de 8 o más caracteres")}}
                     style={[styles.inputButton, passwordValue.length >= 8 ? {backgroundColor:'#448f44'}: {backgroundColor:'#446044'}]}                    
-                    ><Text>Inicio de Sesion</Text>
+                    ><Text>Iniciar Sesión</Text>
                 </TouchableOpacity>
                 <View style={{marginTop:'15%',paddingBottom: 15, justifyContent:'center', flexDirection: 'row'}}>
                 <Text style={{ display: 'flex', color:'#ddd'}}>¿No tienes una cuenta?   </Text>

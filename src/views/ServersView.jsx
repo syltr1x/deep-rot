@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useIsFocused } from '@react-navigation/native';
+// React-Native Imports
+import React from 'react';
 import Constants from 'expo-constants';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
+// React-Navigation Imports
+import { useIsFocused } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import ServerItem from '../components/ServerItem.jsx';
-import { getServers } from '../backend/ServerFunctions.js';
+// Server Functions and Views
 import ChatView from './ChatView.jsx'
 import AddServerView from './AddServerView.jsx';
 import ModServerView from './ModServerView.jsx';
+import ServerItem from '../components/ServerItem.jsx';
+// Firebase Imports
+import { getData } from '../backend/userFunctions.js';
 
 const ServersView = ({ navigation }) => {
-  const [servers, setServers] = useState([]);
+  const [servers, setServers] = React.useState([]);
   const isFocused = useIsFocused();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchData = async () => {
-      const fetchedServers = getServers();
+      const fetchedServers = getData().servers;
       setServers(fetchedServers);
     };
 
@@ -31,7 +35,7 @@ const ServersView = ({ navigation }) => {
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111'}}>
       <View style={styles.headerBar}>
-        <TouchableOpacity onPress={() => {navigation.navigate("addserver")}}>
+        <TouchableOpacity onPress={() => {navigation.navigate("addserver", {refresh:setServers})}}>
           <Icon 
             size={32}
             name="add-circle-outline"

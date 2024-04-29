@@ -1,7 +1,8 @@
+// React-Native Imports
 import React from "react";
 import Constants from 'expo-constants';
-import { View, Text, StyleSheet, Alert, TouchableOpacity} from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, StyleSheet, Alert, TouchableOpacity} from "react-native";
 
 const HomeView = () => {
     return (

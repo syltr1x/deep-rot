@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+// React-Native Imports
+import React from 'react';
 import Constants from 'expo-constants';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { modServer, getSwap } from '../backend/ServerFunctions';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+// Server Functions Imports
+import { modServer, getSwap } from '../backend/userFunctions';
 
-const ModServerView = ({ navigation }) => {
+const ModServerView = ({ navigation, route }) => {
   const swap = getSwap()
-  const [NameValue, setNameValue] = useState('');
-  const [IpValue, setIpValue] = useState('');
-  const [PortValue, setPortValue] = useState('');
+  const [NameValue, setNameValue] = React.useState('');
+  const [IpValue, setIpValue] = React.useState('');
+  const [PortValue, setPortValue] = React.useState('');
   const handleNameChange = (text) => {setNameValue(text);}; 
   const handleIpChange = (text) => {setIpValue(text);}; 
   const handlePortChange = (text) => {setPortValue(text);};
@@ -51,7 +53,11 @@ const ModServerView = ({ navigation }) => {
         ></TextInput>
         <TouchableOpacity
         style={styles.inputButton}
-        onPress={() => modServer(swap.name, swap.ip, swap.port, NameValue, IpValue, PortValue)}
+        onPress={() => {
+          modServer(swap.name, swap.ip, swap.port, NameValue, IpValue, PortValue, route.params.refresh)
+          Alert.alert("Modificacion exitosa", `${swap.name} se ha modificado con exito`)
+          navigation.navigate('listserver')
+        }}
         >
           <Text style={{fontSize: 16}}
           >Modificar</Text>

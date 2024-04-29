@@ -1,11 +1,15 @@
+// React-Native Imports
 import React from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons'
-import Repository from '../components/Repository.jsx'
+import { Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+// Firebase Imports
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import appFirebase from "../backend/credenciales.js";
+// Componentes Import
+import Repository from '../components/Repository.jsx'
+
 const auth = getAuth(appFirebase)
 const firestore = getFirestore(appFirebase)
 
