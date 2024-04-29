@@ -25,7 +25,7 @@ const RegisterView = ({ navigation, route }) => {
         userInfo = await createUserWithEmailAndPassword(auth, emailValue, passwordValue)
         Alert.alert('Registro Exitoso', '¡Tu cuenta ha sido creada exitosamente!');
         docuRef = doc(firestore, `users/${userInfo.user.uid}`)
-        setDoc(docuRef, {user:userValue, mail:emailValue, password:passwordValue})
+        setDoc(docuRef, {user:userValue, mail:emailValue, password:passwordValue, profile:'', repos:[], servers:[]})
         setUserValue('');   
         setPasswordValue('');
         setEmailValue('');
