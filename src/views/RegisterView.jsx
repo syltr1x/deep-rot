@@ -1,10 +1,13 @@
+// React-Native Imports
 import React, { useState } from "react";
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+// Firebase Imports
 import appFirebase from "../backend/credenciales";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import {doc, setDoc, getFirestore} from 'firebase/firestore'
+
 const auth = getAuth(appFirebase)
 const firestore = getFirestore(appFirebase)
 

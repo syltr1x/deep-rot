@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+// React-Native Imports
+import React from "react";
 import Constants from 'expo-constants';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+// React-Navigation Imports
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import LoginView from "./LoginView";
-import Icon from 'react-native-vector-icons/Ionicons';
 import RegisterView from "./RegisterView";
+// Firebase Imports
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore"
 import appFirebase from "../backend/credenciales";
@@ -14,7 +17,7 @@ const auth = getAuth(appFirebase)
 const firestore = getFirestore(appFirebase)
 
 const UserView = ({ navigation}) => {
-  const [user, setUser] = useState('');
+  const [user, setUser] = React.useState('');
 
   const getUser = async(uid) => {
     docuRef = doc(firestore, `users/${uid}`)

@@ -1,9 +1,12 @@
+// React-Native Imports
 import React, { useState } from "react";
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+// Firebase Imports
 import appFirebase from "../backend/credenciales";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+
 const auth = getAuth(appFirebase)
 
 const RegisterView = ({ navigation, route }) => {

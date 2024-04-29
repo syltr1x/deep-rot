@@ -1,7 +1,9 @@
+// React-Native Imports
 import React, {useState} from 'react';
 import Constants from 'expo-constants';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+// Server Functions Imports
 import { modServer, getSwap } from '../backend/ServerFunctions';
 
 const ModServerView = ({ navigation }) => {

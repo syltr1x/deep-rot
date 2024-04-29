@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
+// React-Native Imports
+import React from 'react';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getSocket, getServer } from '../backend/ServerFunctions';
+import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-native';
+// Firebase Imports
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged} from 'firebase/auth';
 import appFirebase from '../backend/credenciales';
+// Server Functions
+import { getSocket, getServer } from '../backend/ServerFunctions';
 
 const firestore = getFirestore(appFirebase)
 const auth = getAuth(appFirebase)
@@ -17,7 +20,7 @@ let setMessages
 const ChatView = ({ navigation }) => {
 
   // User Variables
-  const [user, setUser] = useState('');
+  const [user, setUser] = React.useState('');
   const getUser = async(uid) => {
     docuRef = doc(firestore, `users/${uid}`)
     docuCi = await getDoc(docuRef)
@@ -34,8 +37,8 @@ const ChatView = ({ navigation }) => {
   })
 
   // Message Variables
-  const [inputValue, setInputValue] = useState('');
-  [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = React.useState('');
+  [messages, setMessages] = React.useState([]);
   const handleInputChange = (text) => { 
     setInputValue(text);
   };
@@ -51,7 +54,7 @@ const ChatView = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (getServer().name != 'not-connected') {
       if (typeof socket === 'undefined') {
       socket = getSocket()
