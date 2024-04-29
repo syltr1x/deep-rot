@@ -79,9 +79,9 @@ const RegisterView = ({ navigation, route }) => {
                     secureTextEntry={true}
                 />
                 <TouchableOpacity 
-                    onPress={userValue != '' && emailValue != '' && passwordValue.length > 8 ? submitHandler: () => {Alert.alert("Porfavor Completa todos los campos!", "* contraseña de 8 o más caracteres")}}
+                    onPress={userValue != '' && emailValue != '' && passwordValue.length >= 8 ? submitHandler: () => {Alert.alert("Porfavor Completa todos los campos!", "* contraseña de 8 o más caracteres")}}
                     style={[styles.inputButton, userValue != '' && passwordValue.length >= 8 ? {backgroundColor:'#448f44'}: {backgroundColor:'#446044'}]}
-                ><Text>Registrarse</Text>
+                ><Text>Crear Cuenta</Text>
                 </TouchableOpacity>
                 <View style={{marginTop:'15%',paddingBottom: 15, justifyContent:'center', flexDirection: 'row'}}>
                     <Text style={{ display: 'flex', color:'#ddd'}}>¿Tienes una cuenta?   </Text>
