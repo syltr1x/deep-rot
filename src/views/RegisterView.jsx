@@ -1,5 +1,5 @@
 // React-Native Imports
-import React, { useState } from "react";
+import React from "react";
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
@@ -12,9 +12,9 @@ const auth = getAuth(appFirebase)
 const firestore = getFirestore(appFirebase)
 
 const RegisterView = ({ navigation, route }) => {
-    const [userValue, setUserValue] = useState('');
-    const [passwordValue, setPasswordValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
+    const [userValue, setUserValue] = React.useState('');
+    const [passwordValue, setPasswordValue] = React.useState('');
+    const [emailValue, setEmailValue] = React.useState('');
 
     const handleUserChange = (text) => setUserValue(text);
     const handlePasswordChange = (text) => setPasswordValue(text);

@@ -1,5 +1,5 @@
 // React-Native Imports
-import React from 'react';
+import React from "react";
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, TextInput, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-native';

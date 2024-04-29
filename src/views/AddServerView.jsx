@@ -1,5 +1,5 @@
 // React-Native Imports
-import React, {useState} from 'react';
+import React from 'react';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
@@ -8,9 +8,9 @@ import { addServer } from '../backend/ServerFunctions';
 import { storeServer } from '../backend/userFunctions';
 
 const AddServerView = ({ navigation }) => {
-  const [NameValue, setNameValue] = useState('');
-  const [IpValue, setIpValue] = useState('');
-  const [PortValue, setPortValue] = useState('');
+  const [NameValue, setNameValue] = React.useState('');
+  const [IpValue, setIpValue] = React.useState('');
+  const [PortValue, setPortValue] = React.useState('');
   const handleNameChange = (text) => {setNameValue(text);}; 
   const handleIpChange = (text) => {setIpValue(text);}; 
   const handlePortChange = (text) => {setPortValue(text);};
@@ -52,8 +52,9 @@ const AddServerView = ({ navigation }) => {
         onChangeText={handlePortChange}
         ></TextInput>
         <TouchableOpacity
-        style={styles.inputButton}
-        onPress={() => {
+        style={[styles.inputButton, NameValue != '' && IpValue != '' && PortValue != '' ? {backgroundColor:'#448f44'}: {backgroundColor:'#446044'}]}                    
+        onPress={ 
+          NameValue != '' && IpValue != '' && PortValue != '' ? () => {
           try {
             addServer(NameValue, IpValue, PortValue)
             storeServer({'name':NameValue, 'ip':IpValue, 'port':PortValue})
@@ -67,7 +68,7 @@ const AddServerView = ({ navigation }) => {
           } catch(e) {
             Alert.alert("An Error has ocurred", e)
           }
-        }}
+        }: () => {Alert.alert("Porfavor Completa todos los campos!")}}
         >
           <Icon
           size={32}
@@ -124,7 +125,6 @@ const styles = StyleSheet.create({
     padding: 3,
     flexDirection: 'row',
     marginTop : 30,
-    backgroundColor: '#494',
     borderRadius: 9,
     width:'70%'
   }
