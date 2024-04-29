@@ -8,7 +8,7 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged} from 'firebase/auth';
 import appFirebase from '../backend/credenciales';
 // Server Functions
-import { getSocket, getServer } from '../backend/ServerFunctions';
+import { getSocket, getServer } from '../backend/userFunctions';
 
 const firestore = getFirestore(appFirebase)
 const auth = getAuth(appFirebase)

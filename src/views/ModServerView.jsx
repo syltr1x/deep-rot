@@ -2,11 +2,11 @@
 import React from 'react';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 // Server Functions Imports
-import { modServer, getSwap } from '../backend/ServerFunctions';
+import { modServer, getSwap } from '../backend/userFunctions';
 
-const ModServerView = ({ navigation }) => {
+const ModServerView = ({ navigation, route }) => {
   const swap = getSwap()
   const [NameValue, setNameValue] = React.useState('');
   const [IpValue, setIpValue] = React.useState('');
@@ -53,7 +53,11 @@ const ModServerView = ({ navigation }) => {
         ></TextInput>
         <TouchableOpacity
         style={styles.inputButton}
-        onPress={() => modServer(swap.name, swap.ip, swap.port, NameValue, IpValue, PortValue)}
+        onPress={() => {
+          modServer(swap.name, swap.ip, swap.port, NameValue, IpValue, PortValue, route.params.refresh)
+          Alert.alert("Modificacion exitosa", `${swap.name} se ha modificado con exito`)
+          navigation.navigate('listserver')
+        }}
         >
           <Text style={{fontSize: 16}}
           >Modificar</Text>

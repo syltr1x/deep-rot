@@ -12,14 +12,8 @@ import ChatView from './ChatView.jsx'
 import AddServerView from './AddServerView.jsx';
 import ModServerView from './ModServerView.jsx';
 import ServerItem from '../components/ServerItem.jsx';
-import { getServers } from '../backend/ServerFunctions.js';
 // Firebase Imports
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import appFirebase from '../backend/credenciales.js';
-
-const auth = getAuth(appFirebase)
-const firestore = getFirestore(appFirebase)
+import { getData } from '../backend/userFunctions.js';
 
 const ServersView = ({ navigation }) => {
   const [servers, setServers] = React.useState([]);
@@ -27,7 +21,7 @@ const ServersView = ({ navigation }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const fetchedServers = getServers();
+      const fetchedServers = getData().servers;
       setServers(fetchedServers);
     };
 
@@ -41,7 +35,7 @@ const ServersView = ({ navigation }) => {
   return (
     <View style={{ flexGrow: 1, backgroundColor: '#111'}}>
       <View style={styles.headerBar}>
-        <TouchableOpacity onPress={() => {navigation.navigate("addserver")}}>
+        <TouchableOpacity onPress={() => {navigation.navigate("addserver", {refresh:setServers})}}>
           <Icon 
             size={32}
             name="add-circle-outline"

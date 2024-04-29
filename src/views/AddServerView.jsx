@@ -4,10 +4,9 @@ import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 // Server and Database Functions
-import { addServer } from '../backend/ServerFunctions';
-import { storeServer } from '../backend/userFunctions';
+import { addServer } from '../backend/userFunctions';
 
-const AddServerView = ({ navigation }) => {
+const AddServerView = ({ navigation, route }) => {
   const [NameValue, setNameValue] = React.useState('');
   const [IpValue, setIpValue] = React.useState('');
   const [PortValue, setPortValue] = React.useState('');
@@ -57,7 +56,6 @@ const AddServerView = ({ navigation }) => {
           NameValue != '' && IpValue != '' && PortValue != '' ? () => {
           try {
             addServer(NameValue, IpValue, PortValue)
-            storeServer({'name':NameValue, 'ip':IpValue, 'port':PortValue})
             Alert.alert("Servidor añadido Correctamente!")
             // Fields Cleaning
             setNameValue('')
