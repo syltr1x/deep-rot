@@ -19,10 +19,18 @@ const RegisterView = ({ navigation, route }) => {
     const submitHandler = async() => {
       try {
         signInWithEmailAndPassword(auth, emailValue, passwordValue)
-        Alert.alert('Has iniciado sesion!');
-        setEmailValue('');
-        setPasswordValue('');
-        Alert.alert('Has iniciado sesion!');
+        .then((cred) => {
+            Alert.alert(`Inicio de sesión", "Has iniciado sesión como : ${cred.user}`)
+            setEmailValue('');
+            setPasswordValue('');
+        })
+        .catch((e) => {
+            let errors = {"Firebase: Error (auth/invalid-email).": ["Error: Invalid Email", "Porfavor revisa la direccion de correo proporcionada"],
+                         "Firebase: Error (auth/invalid-credential).": ["Error: Invalid Credential", "Porfavor revisa las credenciales ingresadas"],
+                         "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).":["Error: many attempts", "Se ha deshabilitado temporalmente el Inicio de sesion debido a varios intentos fallidos.\nVuelva a intentarlo mas tarde"]}
+            
+            Alert.alert(errors[e.message][0], errors[e.message][1])            
+            })
         } catch(error) {
             Alert.alert('Error', error.message);
         };
