@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 // Firebase Imports
 import appFirebase from "../backend/credenciales";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import {doc, setDoc, getFirestore} from 'firebase/firestore'
 
 const auth = getAuth(appFirebase)
@@ -23,9 +23,12 @@ const RegisterView = ({ navigation, route }) => {
     const submitHandler = async() => {
       try {
         userInfo = await createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+        await updateProfile(userInfo.user, {
+          displayName: userValue
+        });
         Alert.alert('Registro Exitoso', '¡Tu cuenta ha sido creada exitosamente!');
         docuRef = doc(firestore, `users/${userInfo.user.uid}`)
-        setDoc(docuRef, {user:userValue, mail:emailValue, password:passwordValue, profile:'', repos:[], servers:[]})
+        setDoc(docuRef, {user:userValue, mail:emailValue, profile:'', repos:[], servers:[]})
         setUserValue('');   
         setPasswordValue('');
         setEmailValue('');
