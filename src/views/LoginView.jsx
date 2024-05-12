@@ -20,7 +20,7 @@ const RegisterView = ({ navigation, route }) => {
       try {
         signInWithEmailAndPassword(auth, emailValue, passwordValue)
         .then((cred) => {
-            Alert.alert(`Inicio de sesión", "Has iniciado sesión como : ${cred.user}`)
+            Alert.alert("Inicio de sesión", `Has iniciado sesión como: ${cred.user.displayName}`)
             setEmailValue('');
             setPasswordValue('');
         })
