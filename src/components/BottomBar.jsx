@@ -13,6 +13,7 @@ export const BottomTab = () => {
     return (
         <Tab.Navigator
             screenOptions = { ({ route }) => ({
+                tabBarStyle:{backgroundColor:'#111', borderColor: '#4448'},
                 tabBarActiveTintColor: '#dfdfdf',
                 tabBarActiveBackgroundColor: '#111',
                 tabBarInactiveTintColor: '#b1b1b1',
@@ -20,7 +21,7 @@ export const BottomTab = () => {
                 tabBarShowLabel: false,
                 headerTitleAlign: "center",
                 headerShown:false,
-                tabBarIcon: ({ focused, color, size }) => {
+                tabBarIcon: ({ focused, color }) => {
                     let iconName = '';
                     switch ( route.name ) {
                         case 'Home':
