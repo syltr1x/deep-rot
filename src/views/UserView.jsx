@@ -43,7 +43,7 @@ const UserView = ({ navigation}) => {
   return (
       <View style={{flexGrow: 1 , backgroundColor: '#111'}}>
         <View style={styles.headerBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('config')}>
+        <TouchableOpacity onPress={() => {user != '' ? navigation.navigate('config') : Alert.alert("Debes Iniciar sesión")}}>
         <Icon
             size={32}
             name="cog-outline"
@@ -52,7 +52,7 @@ const UserView = ({ navigation}) => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Mi Cuenta</Text>   
         <TouchableOpacity
-        onPress={() => {user != '' ? Alert.alert("Cerrar Sesion", "Estas seguro de que quieres cerrar sesion?", [
+        onPress={() => {user != '' ? Alert.alert("Cerrar Sesión", "Estas seguro de que quieres cerrar sesión?", [
           {"text":"Cancelar"},
           {"text":"Confirmar", "onPress":() => {signOut(auth)}}
         ]) : navigation.navigate("login", {origen:'users'})}}
