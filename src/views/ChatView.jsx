@@ -44,9 +44,9 @@ const ChatView = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    if (typeof socket === 'undefined') {
+    if (typeof socket === 'undefined' || socket == 'not-connected') {
       socket = getSocket()
-    } if (typeof socket !== 'undefined') {
+    } if (typeof socket !== 'undefined' && socket !== 'not-connected') {
       if (inputValue != '') {
         socket.emit('message', { user: user.user, msg: inputValue });
         setInputValue('');
@@ -56,15 +56,15 @@ const ChatView = ({ navigation }) => {
 
   React.useEffect(() => {
     if (getServer().name != 'not-connected') {
-      if (typeof socket === 'undefined') {
+      if (typeof socket === 'undefined' || socket == "not-connected" ) {
       socket = getSocket()
-    
-      if (!manMsg) {
+      }
+      if (!manMsg && socket !== 'not-connected' && typeof socket !== 'undefined') {
         manMsg = true
         socket.on('message', (data) => {
           setMessages(prevMessages => [...prevMessages, data.msg]);
         })
-      }}
+      }
   }}, []);
 
   return (

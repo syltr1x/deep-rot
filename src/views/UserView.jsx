@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from '@react-navigation/native';
 import LoginView from "./LoginView";
 import RegisterView from "./RegisterView";
+import ConfigView from "./ConfigView";
 // Firebase Imports
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore"
@@ -42,7 +43,7 @@ const UserView = ({ navigation}) => {
   return (
       <View style={{flexGrow: 1 , backgroundColor: '#111'}}>
         <View style={styles.headerBar}>
-        <TouchableOpacity onPress={() => Alert.alert("Configuracion")}>
+        <TouchableOpacity onPress={() => {user != '' ? navigation.navigate('config') : Alert.alert("Debes Iniciar sesión")}}>
         <Icon
             size={32}
             name="cog-outline"
@@ -51,7 +52,10 @@ const UserView = ({ navigation}) => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Mi Cuenta</Text>   
         <TouchableOpacity
-        onPress={() => {user != '' ? signOut(auth) : navigation.navigate("login", {origen:'users'})}}
+        onPress={() => {user != '' ? Alert.alert("Cerrar Sesión", "Estas seguro de que quieres cerrar sesión?", [
+          {"text":"Cancelar"},
+          {"text":"Confirmar", "onPress":() => {signOut(auth)}}
+        ]) : navigation.navigate("login", {origen:'users'})}}
         ><Icon
             size={32}
             name={user != '' ? "log-out-outline": "log-in-outline"}
@@ -91,6 +95,7 @@ const UsersFrame = () => {
         <Stack.Screen name="users" component={UserView}/>
         <Stack.Screen name="login" component={LoginView}/>
         <Stack.Screen name="register" component={RegisterView}/>
+        <Stack.Screen name="config" component={ConfigView}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
